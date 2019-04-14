@@ -1,5 +1,7 @@
 {
   "name": "padi-assignment-ionic",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

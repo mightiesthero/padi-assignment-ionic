@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Survey</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <ion-item>
+      <ion-label position="floating">Client Name</ion-label>
+      <ion-input [(ngModel)]="client"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Address</ion-label>
+      <ion-input [(ngModel)]="address"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">City</ion-label>
+      <ion-input [(ngModel)]="city"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Status</ion-label>
+      <ion-select placeholder="Select One">
+        <ion-select-option value="0"
+          >tidak dapat dilaksanakan</ion-select-option
+        >
+        <ion-select-option value="1">dapat dilaksanakan</ion-select-option>
+        <ion-select-option value="2"
+          >dapat dilaksanakan dengan syarat</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Sales (Email)</ion-label>
+      <ion-input [(ngModel)]="sales"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Technician (Email)</ion-label>
+      <ion-textarea [(ngModel)]="technician"></ion-textarea>
+    </ion-item>
+
+    <ion-button margin (click)="onSubmit()">Submit</ion-button>
+
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>
