@@ -44,7 +44,7 @@ export class HomePage {
     //     console.log(error);
     //   }
     // );
-    if (this.email === "bengsiswantoh@gmail.com") {
+    if (this.email === "bengsiswantoh@gmail.com" && this.password === "bengsiswantoh@gmail.com") {
       authenticated = true;
     }
 
