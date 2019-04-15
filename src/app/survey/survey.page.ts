@@ -34,7 +34,7 @@ export class SurveyPage implements OnInit {
 
   ngOnInit() {
     if (!this.currentUserService.email) {
-      this.router.navigate([""]);
+      this.router.navigate(["home"]);
     }
   }
 
