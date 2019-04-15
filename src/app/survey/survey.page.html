@@ -48,7 +48,7 @@
       <ion-row *ngFor="let image of images">
         <ion-item>
           <ion-thumbnail slot="start">
-            <ion-img [src]="image.img"></ion-img>
+            <ion-img [src]="'data:image/jpeg;base64,' + image.img"></ion-img>
           </ion-thumbnail>
           <ion-input [(ngModel)]="image.name"></ion-input>
         </ion-item>

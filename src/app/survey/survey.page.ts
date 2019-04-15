@@ -58,11 +58,10 @@ export class SurveyPage implements OnInit {
 
     this.camera.getPicture(options).then(
       imageData => {
-        const base64Image = "data:image/jpeg;base64," + imageData;
         this.images.push({
-          img: base64Image,
-          name: "camera",
-          description: "ok"
+          img: imageData,
+          name: "name",
+          description: "description"
         });
       },
       err => {
