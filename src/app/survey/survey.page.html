@@ -40,16 +40,28 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Technician (Email)</ion-label>
-      <ion-textarea [(ngModel)]="technician"></ion-textarea>
+      <ion-label position="floating">Technicians (Email)</ion-label>
+      <ion-textarea [(ngModel)]="technicians"></ion-textarea>
     </ion-item>
 
-    <ion-button margin (click)="onSubmit()">Submit</ion-button>
+    <ion-grid>
+      <ion-row *ngFor="let image of images">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <ion-img [src]="image.img"></ion-img>
+          </ion-thumbnail>
+          <ion-input [(ngModel)]="image.name"></ion-input>
+        </ion-item>
 
-    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-      <ion-fab-button (click)="takePicture()">
-        <ion-icon name="camera"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea [(ngModel)]="image.description"></ion-textarea>
+        </ion-item>
+      </ion-row>
+    </ion-grid>
+
+    <ion-button margin (click)="takePicture()">Add Image</ion-button>
+
+    <ion-button margin (click)="onSubmit()">Submit</ion-button>
   </div>
 </ion-content>

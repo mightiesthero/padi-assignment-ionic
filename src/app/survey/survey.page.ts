@@ -19,7 +19,8 @@ export class SurveyPage implements OnInit {
   address: string;
   city: string;
   status: string;
-  technician: string;
+  technicians: string;
+  images: any[] = [];
 
   constructor(
     private currentUserService: CurrentUserService,
@@ -50,14 +51,19 @@ export class SurveyPage implements OnInit {
   takePicture() {
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
     };
 
     this.camera.getPicture(options).then(
       imageData => {
-        let base64Image = "data:image/jpeg;base64," + imageData;
+        const base64Image = "data:image/jpeg;base64," + imageData;
+        this.images.push({
+          img: base64Image,
+          name: "camera",
+          description: "ok"
+        });
       },
       err => {
         this.showAlert("Failed", `${err}`, ["Okay"]);
@@ -73,6 +79,16 @@ export class SurveyPage implements OnInit {
         Authorization: "my-auth-token"
       })
     };
+
+    let techniciansObj = null;
+    if (this.technicians) {
+      const technicians = this.technicians.split("\n");
+
+      techniciansObj = technicians.map(technician => {
+        return { email: technician };
+      });
+    }
+
     const params = {
       clientname: this.client,
       address: this.address,
@@ -81,7 +97,9 @@ export class SurveyPage implements OnInit {
       latitude: latitude,
       status: this.status,
       sales: this.sales,
-      email: this.currentUserService.email
+      email: this.currentUserService.email,
+      survey_technicians_attributes: techniciansObj,
+      survey_images_attributes: this.images
     };
 
     this.http.post(url, params, headers).subscribe(
@@ -95,13 +113,19 @@ export class SurveyPage implements OnInit {
   }
 
   onSubmit() {
+    // this.submitData(2, 1);
+
     this.geolocation
       .getCurrentPosition()
       .then(resp => {
         this.submitData(resp.coords.latitude, resp.coords.longitude);
       })
       .catch(error => {
-        this.showAlert("Failed", `Error getting location ${error}`, ["Okay"]);
+        this.showAlert(
+          "Failed",
+          `Error getting location ${JSON.stringify(error)}`,
+          ["Okay"]
+        );
       });
   }
 }
