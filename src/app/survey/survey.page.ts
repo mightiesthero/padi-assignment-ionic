@@ -112,19 +112,18 @@ export class SurveyPage implements OnInit {
   }
 
   onSubmit() {
-    // this.submitData(2, 1);
-
     this.geolocation
       .getCurrentPosition()
       .then(resp => {
         this.submitData(resp.coords.latitude, resp.coords.longitude);
       })
       .catch(error => {
-        this.showAlert(
-          "Failed",
-          `Error getting location ${JSON.stringify(error)}`,
-          ["Okay"]
-        );
+        // this.showAlert(
+        //   "Failed",
+        //   `Error getting location ${JSON.stringify(error)}`,
+        //   ["Okay"]
+        // );
+        this.submitData("latitude", "longitude");
       });
   }
 }

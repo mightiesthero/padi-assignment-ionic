@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { CurrentUserService } from "../services/current-user.service";
 import { ServerService } from "../services/server.service";
@@ -14,51 +15,51 @@ export class HomePage {
   email: string;
   password: string;
 
-  url = "api/get_users.json";
-
   constructor(
     private currentUserService: CurrentUserService,
     private server: ServerService,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private http: HttpClient
   ) {}
 
+  showAlert(header, message, buttons) {
+    this.alertCtrl
+      .create({
+        header: header,
+        message: message,
+        buttons: buttons
+      })
+      .then(alertEl => alertEl.present());
+  }
+
   onLogin() {
-    let authenticated = false;
-    let url = `${this.server.url}${this.url}`;
+    const url = `${this.server.url}api/authenticate.json`;
 
-    // TODO: authenticated with server
-    // const headers = {
-    //   headers: new HttpHeaders({
-    //     "Content-Type": "application/json",
-    //     Authorization: "my-auth-token"
-    //   })
-    // };
-    // this.http.get(this.url, headers).subscribe(
-    //   data => {
-    //     console.log(`data`);
-    //     console.log(data);
-    //   },
-    //   error => {
-    //     console.log(`error`);
-    //     console.log(error);
-    //   }
-    // );
-    if (this.email === "bengsiswantoh@gmail.com" && this.password === "bengsiswantoh@gmail.com") {
-      authenticated = true;
-    }
+    const headers = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "my-auth-token"
+      })
+    };
 
-    if (authenticated) {
-      this.currentUserService.email = this.email;
-      this.router.navigate(["/survey"]);
-    } else {
-      this.alertCtrl
-        .create({
-          header: "Error",
-          message: "email or password doesn't match",
-          buttons: ["Okay"]
-        })
-        .then(alertEl => alertEl.present());
-    }
+    const params = {
+      email: this.email,
+      password: this.password
+    };
+
+    this.http.post(url, params, headers).subscribe(
+      data => {
+        if (data["message"] === "success") {
+          this.currentUserService.email = this.email;
+          this.router.navigate(["/survey"]);
+        } else {
+          this.showAlert("Failed", data["message"], ["Okay"]);
+        }
+      },
+      error => {
+        this.showAlert("Failed", error.message, ["Okay"]);
+      }
+    );
   }
 }
